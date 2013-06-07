@@ -29,7 +29,8 @@ const NSInteger kNumberOfCells = 1000;
 @property (nonatomic, retain) NSArray *images;
 
 @end
-
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 @implementation TMDemoQuiltViewController
 
 @synthesize images = _images;
@@ -39,6 +40,7 @@ const NSInteger kNumberOfCells = 1000;
     [super dealloc];
 }
 
+//------------------------------------------------------------------------------
 #pragma mark - UIViewController
 
 - (void)viewDidLoad
@@ -48,6 +50,7 @@ const NSInteger kNumberOfCells = 1000;
     self.quiltView.backgroundColor = [UIColor blackColor];
 }
 
+//------------------------------------------------------------------------------
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -57,8 +60,7 @@ const NSInteger kNumberOfCells = 1000;
     }
 }
 
-#pragma mark - QuiltViewControllerDataSource
-
+//------------------------------------------------------------------------------
 - (NSArray *)images {
     if (!_images) {
         NSMutableArray *imageNames = [NSMutableArray array];
@@ -70,16 +72,25 @@ const NSInteger kNumberOfCells = 1000;
     return _images;
 }
 
+//------------------------------------------------------------------------------
+#pragma mark - QuiltViewControllerDataSource
+
 - (UIImage *)imageAtIndexPath:(NSIndexPath *)indexPath {
     return [UIImage imageNamed:[self.images objectAtIndex:indexPath.row]];
 }
 
+//------------------------------------------------------------------------------
 - (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
     return [self.images count];
 }
 
-- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
-    TMPhotoQuiltViewCell *cell = (TMPhotoQuiltViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
+//------------------------------------------------------------------------------
+- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView
+               cellAtIndexPath:(NSIndexPath *)indexPath
+{
+    TMPhotoQuiltViewCell *cell =
+    (TMPhotoQuiltViewCell *)[quiltView
+                             dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
     if (!cell) {
         cell = [[[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:@"PhotoCell"] autorelease];
     }
@@ -88,7 +99,7 @@ const NSInteger kNumberOfCells = 1000;
     cell.titleLabel.text = [NSString stringWithFormat:@"%d", indexPath.row + 1];
     return cell;
 }
-
+//------------------------------------------------------------------------------
 #pragma mark - TMQuiltViewDelegate
 
 - (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
@@ -101,8 +112,10 @@ const NSInteger kNumberOfCells = 1000;
         return 2;
     }
 }
-
-- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath {
+//------------------------------------------------------------------------------
+-       (CGFloat)quiltView:(TMQuiltView *)quiltView
+  heightForCellAtIndexPath:(NSIndexPath *)indexPath
+{
     return [self imageAtIndexPath:indexPath].size.height / [self quiltViewNumberOfColumns:quiltView];
 }
 
