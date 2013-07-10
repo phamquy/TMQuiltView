@@ -54,6 +54,7 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
 @end
 
 @implementation TMQuiltView
+@synthesize headerView;
 
 @synthesize dataSource = _dataSource;
 
@@ -352,7 +353,8 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
         }
     }
     
-    self.contentSize = CGSizeMake(self.bounds.size.width, tallestHeight + [self cellMargin:TMQuiltViewCellMarginBottom]);
+    self.contentSize = CGSizeMake(self.bounds.size.width, tallestHeight + [self cellMargin:TMQuiltViewCellMarginBottom] +
+                                  (self.headerView ? self.headerView.bounds.size.height:0));
 
     //
     [self recycleViews];
@@ -393,12 +395,16 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
     float height = [self heightForCellAtIndexPath:[self.indexPathsByColumn[column] objectAtIndex:index]];
 
     return CGRectMake(column * ([self cellWidth] + [self cellMargin:TMQuiltViewCellMarginColumns]) + [self cellMargin:TMQuiltViewCellMarginLeft],
-                             cellTop,
+                      cellTop + (self.headerView ? self.headerView.bounds.size.height:0),
                              [self cellWidth], height);
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    if (self.headerView) {
+        [self addSubview:self.headerView];
+    }
     
     self.contentSize = CGSizeMake(self.bounds.size.width, self.contentSize.height);
     
