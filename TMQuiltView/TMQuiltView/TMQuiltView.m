@@ -246,14 +246,28 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
 }
 
 - (TMQuiltViewCell *)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier {
+    //    static int pointerVal = 0;
     TMQuiltViewCell *view = [[self reusableViewsWithReuseIdentifier:identifier] anyObject];
     if (view) {
+        //        if (!pointerVal) pointerVal=view;
         [view retain];
+        
+//        if (view == pointerVal) {
+//            imLog (@"id: %d, retain count 1: %d", pointerVal, [view retainCount]);
+//        }
+        
         view.selected = NO;
         [[self reusableViewsWithReuseIdentifier:identifier] removeObject:view];
     }
     
-    return [view autorelease];
+//    if (view == pointerVal) {
+//        imLog (@"id: %d, retain count 2: %d", pointerVal, [view retainCount]);
+//    }
+    
+    [view performSelector:@selector(autorelease) withObject:nil afterDelay:0.01];
+    //    return [view autorelease];
+    return view;
+    //return view;
 }
 
 #pragma mark - Cell creation, insertion and deletion
