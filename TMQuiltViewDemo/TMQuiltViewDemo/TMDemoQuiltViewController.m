@@ -81,7 +81,8 @@ const NSInteger kNumberOfCells = 1000;
 
 //------------------------------------------------------------------------------
 - (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-    return [self.images count];
+    //return [self.images count];
+    return 3;
 }
 
 //------------------------------------------------------------------------------
@@ -116,7 +117,7 @@ const NSInteger kNumberOfCells = 1000;
 -       (CGFloat)quiltView:(TMQuiltView *)quiltView
   heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self imageAtIndexPath:indexPath].size.height / [self quiltViewNumberOfColumns:quiltView];
+    return 100;// [self imageAtIndexPath:indexPath].size.height / [self quiltViewNumberOfColumns:quiltView];
 }
 
 @end

@@ -502,6 +502,19 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
                 break;
             }
         }
+        
+        // Apply the fixes from: https://github.com/pawartur/TMQuiltView/commit/2cd1a3eaa6ad4b149dd5b4c69513dd254cf76dca
+        if (*bottom == [indexPaths count] - 1 && [TMQuiltView isRect:[self rectForCellAtIndex:*bottom column:i] partiallyInScrollView:self]){
+            NSIndexPath *indexPath = [indexPaths objectAtIndex:*bottom];
+            // We check, if the last cell has actually been harvested...
+            if ([indexPathToView objectForKey:indexPath] == nil) {
+                // ... and if so, we add it back
+                UIView* cell = [self.dataSource quiltView:self cellAtIndexPath:indexPath];
+                [self addSubview:cell];
+                [indexPathToView setObject:cell forKey:indexPath];
+            }
+        }
+
     }
 }
 
